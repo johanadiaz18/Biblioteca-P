@@ -38,6 +38,24 @@ async getAll(req, res) {
         });
     }
 }
+ async add(req, res) {
+    try {
+        const libro = req.body;
+        const fecha = libro["año-publicacion"];
+
+        const [result] = await pool.query(
+            'INSERT INTO Libros(nombre, autor, categoria, `año-publicacion`, ISBN, id) VALUES (?, ?, ?, ?, ?, ?)',
+            [libro.nombre, libro.autor, libro.categoria, fecha, libro.ISBN, libro.id]
+        );
+
+        res.json({ "Id insertado": result.insertId });
+
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
+    }
+}
 }
 
 export const libro = new LibroController();
