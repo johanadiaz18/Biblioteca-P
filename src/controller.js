@@ -56,6 +56,21 @@ async getAll(req, res) {
         });
     }
 }
-}
+async delete(req, res) {
+    try { 
+        const libro = req.body;
+        const [result] = await pool.query(
+            'DELETE FROM Libros WHERE ISBN=(?)',
+            [libro.ISBN]
+        );
 
+        res.json({ "Registros eliminados": result.affectedRows });
+
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
+    }
+}
+}
 export const libro = new LibroController();
