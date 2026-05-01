@@ -72,5 +72,29 @@ async delete(req, res) {
         });
     }
 }
+
+async update(req, res) {
+    try {
+        const { id, nombre, autor, categoria, ISBN } = req.body;
+        const fecha = req.body["año-publicacion"];
+
+        const [result] = await pool.query(
+            'UPDATE Libros SET nombre=(?), autor=(?), categoria=(?), `año-publicacion`=(?), ISBN=(?) WHERE id=(?)',
+            [nombre, autor, categoria, fecha, ISBN, id]
+        );
+
+        if (result.affectedRows === 0)
+            return res.status(404).json({ error: "Libro no encontrado" });
+
+        res.json({
+            "Registros actualizados": result.affectedRows
+        });
+
+    } catch (e) {
+        res.status(500).json({
+            error: e.message
+        });
+    }
+}
 }
 export const libro = new LibroController();

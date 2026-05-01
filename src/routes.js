@@ -7,3 +7,4 @@ router.get('/libros', libro.getAll);
 router.get('/libros/:id', libro.getOne);
 router.post('/libros', libro.add);
 router.delete('/libros', libro.delete);
+router.put('/libros', libro.update);
